@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:padding="16dp">
+    <LinearLayout android:orientation="vertical"
+        android:layout_width="match_parent" android:layout_height="wrap_content">
+        <TextView android:text="Current speed" android:textSize="16sp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/tv_speed" android:text="0.0 km/h" android:textSize="56sp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/tv_speed_mph" android:text="0.0 mph"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#CCCCCC"/>
+        <TextView android:text="Average timer (medium speed)" android:textSize="16sp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16dp"/>
+        <TextView android:id="@+id/tv_avg" android:text="Avg: -- km/h" android:textSize="24sp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/tv_timer" android:text="00:00:00" android:textSize="24sp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView android:id="@+id/tv_max" android:text="Max: 0.0 km/h"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <LinearLayout android:orientation="horizontal"
+            android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+            <Button android:id="@+id/btn_start_timer" android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="wrap_content" android:text="Start timer"/>
+            <Button android:id="@+id/btn_stop_timer" android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="wrap_content" android:text="Stop"/>
+            <Button android:id="@+id/btn_reset_timer" android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="wrap_content" android:text="Reset"/>
+        </LinearLayout>
+        <TextView android:text="Works fully offline via GPS. No internet needed."
+            android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16dp"/>
+    </LinearLayout>
+</ScrollView>

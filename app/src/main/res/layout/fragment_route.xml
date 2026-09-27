@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:padding="16dp">
+    <LinearLayout android:orientation="vertical"
+        android:layout_width="match_parent" android:layout_height="wrap_content">
+        <TextView android:text="Offline route (like Google Maps, but offline)"
+            android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="16sp"/>
+        <EditText android:id="@+id/et_dest_lat" android:hint="Dest lat (e.g. 56.9496)"
+            android:inputType="numberDecimal|numberSigned"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <EditText android:id="@+id/et_dest_lon" android:hint="Dest lon (e.g. 24.1052)"
+            android:inputType="numberDecimal|numberSigned"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <EditText android:id="@+id/et_dest_name" android:hint="Label (optional, e.g. Riga Old Town)"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <LinearLayout android:orientation="horizontal"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+            <Button android:id="@+id/btn_use_map_center" android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="wrap_content" android:text="Use map tap"/>
+            <Button android:id="@+id/btn_route" android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="wrap_content" android:text="Route"/>
+            <Button android:id="@+id/btn_clear_route" android:layout_width="0dp" android:layout_weight="1"
+                android:layout_height="wrap_content" android:text="Clear"/>
+        </LinearLayout>
+        <TextView android:id="@+id/tv_route_info" android:text="No route yet. Long-press map or enter coords."
+            android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp"/>
+        <TextView android:text="Tip: download your country map first (Maps tab). Routing then works 100% offline via on-device GraphHopper. If graph not built yet, app shows straight-line distance as fallback."
+            android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp"/>
+    </LinearLayout>
+</ScrollView>

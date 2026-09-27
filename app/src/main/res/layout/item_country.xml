@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:padding="12dp"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+    <TextView android:id="@+id/tv_name" android:text="Latvia" android:textSize="18sp"
+        android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"/>
+    <TextView android:id="@+id/tv_detail" android:text="~80 MB • vector .map + tiles"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    <LinearLayout android:orientation="horizontal"
+        android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp">
+        <Button android:id="@+id/btn_download" android:layout_width="0dp" android:layout_weight="1"
+            android:layout_height="wrap_content" android:text="Download"/>
+        <Button android:id="@+id/btn_delete" android:layout_width="0dp" android:layout_weight="1"
+            android:layout_height="wrap_content" android:text="Delete"/>
+    </LinearLayout>
+    <ProgressBar android:id="@+id/progress" style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent" android:layout_height="wrap_content" android:max="100" android:visibility="gone"/>
+    <TextView android:id="@+id/tv_status" android:text=""
+        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+</LinearLayout>

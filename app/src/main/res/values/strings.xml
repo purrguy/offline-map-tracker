@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Offline Map Tracker</string>
+    <string name="tab_map">Map</string>
+    <string name="tab_speed">Speed</string>
+    <string name="tab_tracks">Tracks</string>
+    <string name="tab_route">Route</string>
+    <string name="tab_download">Maps</string>
+</resources>
