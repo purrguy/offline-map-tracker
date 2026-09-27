@@ -34,6 +34,11 @@ android {
     buildFeatures {
         viewBinding true
     }
+    packaging {
+        resources {
+            excludes += ['META-INF/NOTICE.md', 'META-INF/NOTICE', 'META-INF/LICENSE.md', 'META-INF/LICENSE', 'META-INF/LICENSE.txt', 'META-INF/DEPENDENCIES', 'META-INF/*.kotlin_module']
+        }
+    }
 }
 
 dependencies {
