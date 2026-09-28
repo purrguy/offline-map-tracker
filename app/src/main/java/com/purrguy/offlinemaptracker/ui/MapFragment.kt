@@ -15,8 +15,10 @@ import com.purrguy.offlinemaptracker.data.CountryCatalog
 import com.purrguy.offlinemaptracker.data.MapStorage
 import com.purrguy.offlinemaptracker.tracking.TrackService
 import org.osmdroid.config.Configuration
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory
+import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
+import org.osmdroid.tileprovider.tilesource.XYTileSource
 import org.osmdroid.util.GeoPoint
+import org.osmdroid.util.MapTileIndex
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.Polyline
@@ -40,27 +42,50 @@ class MapFragment : Fragment() {
         }
     }
 
+    /**
+     * Free OSM-derived tiles that allow app use (unlike tile.openstreetmap.org,
+     * which blocks many mobile apps with "Access blocked").
+     * HOT = Humanitarian style from openstreetmap.fr community servers.
+     */
+    private fun freeTileSource(): OnlineTileSourceBase = object : XYTileSource(
+        "HOT",
+        1, 20, 256, ".png",
+        arrayOf(
+            "https://a.tile.openstreetmap.fr/hot/",
+            "https://b.tile.openstreetmap.fr/hot/",
+            "https://c.tile.openstreetmap.fr/hot/"
+        ),
+        "© OpenStreetMap contributors, Tiles © HOT / OSM France"
+    ) {
+        override fun getTileURLString(pMapTileIndex: Long): String {
+            return baseUrl +
+                MapTileIndex.getZoom(pMapTileIndex) + "/" +
+                MapTileIndex.getX(pMapTileIndex) + "/" +
+                MapTileIndex.getY(pMapTileIndex) + mImageFilenameEnding
+        }
+    }
+
     override fun onCreateView(inf: LayoutInflater, cont: ViewGroup?, b: Bundle?): View {
         // osmdroid requires Configuration to be loaded BEFORE MapView is inflated
         Configuration.getInstance().load(
             requireContext(),
             androidx.preference.PreferenceManager.getDefaultSharedPreferences(requireContext())
         )
-        Configuration.getInstance().userAgentValue = "OfflineMapTracker/1.0"
+        // Unique UA required by tile providers (package + version + contact)
+        Configuration.getInstance().userAgentValue =
+            "com.purrguy.offlinemaptracker/1.0.1 (Offline Map Tracker; https://github.com/purrguy/offline-map-tracker)"
 
         val v = inf.inflate(R.layout.fragment_map, cont, false)
         map = v.findViewById(R.id.mapview)
         status = v.findViewById(R.id.tv_map_status)
 
-        map.setTileSource(TileSourceFactory.MAPNIK)
+        map.setTileSource(freeTileSource())
         map.setMultiTouchControls(true)
         map.controller.setZoom(12.0)
         map.controller.setCenter(GeoPoint(MapState.lastLat, MapState.lastLon))
 
-        // Offline cache: osmdroid caches tiles automatically (space-saving LRU).
-        // If a .map vector file exists we still use raster cache as base (v1) —
-        // vector rendering upgrade is transparent in v1.1.
-        map.setUseDataConnection(true) // auto -> uses cache offline, network only for missing tiles
+        // Cache tiles for offline use after first view; network only for missing tiles
+        map.setUseDataConnection(true)
 
         locOverlay = MyLocationNewOverlay(GpsMyLocationProvider(requireContext()), map).apply {
             enableMyLocation(); enableFollowLocation()
