@@ -8,6 +8,7 @@ import android.view.*
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.purrguy.offlinemaptracker.R
 import com.purrguy.offlinemaptracker.data.CountryCatalog
@@ -40,13 +41,16 @@ class MapFragment : Fragment() {
     }
 
     override fun onCreateView(inf: LayoutInflater, cont: ViewGroup?, b: Bundle?): View {
+        // osmdroid requires Configuration to be loaded BEFORE MapView is inflated
+        Configuration.getInstance().load(
+            requireContext(),
+            androidx.preference.PreferenceManager.getDefaultSharedPreferences(requireContext())
+        )
+        Configuration.getInstance().userAgentValue = "OfflineMapTracker/1.0"
+
         val v = inf.inflate(R.layout.fragment_map, cont, false)
         map = v.findViewById(R.id.mapview)
         status = v.findViewById(R.id.tv_map_status)
-
-        Configuration.getInstance().load(requireContext(),
-            androidx.preference.PreferenceManager.getDefaultSharedPreferences(requireContext()))
-        Configuration.getInstance().userAgentValue = "OfflineMapTracker/1.0"
 
         map.setTileSource(TileSourceFactory.MAPNIK)
         map.setMultiTouchControls(true)
@@ -102,7 +106,12 @@ class MapFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         map.onResume()
-        requireContext().registerReceiver(locReceiver, IntentFilter(TrackService.BROADCAST))
+        ContextCompat.registerReceiver(
+            requireContext(),
+            locReceiver,
+            IntentFilter(TrackService.BROADCAST),
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
         // draw pending track / route
         MapState.destLat?.let { la -> MapState.destLon?.let { lo -> showDest(la, lo) } }
         MapState.trackToShow?.let { drawTrack(it) }

@@ -6,6 +6,7 @@ import android.os.SystemClock
 import android.view.*
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.purrguy.offlinemaptracker.R
 import com.purrguy.offlinemaptracker.tracking.TrackService
@@ -68,7 +69,12 @@ class SpeedFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        requireContext().registerReceiver(receiver, IntentFilter(TrackService.BROADCAST))
+        ContextCompat.registerReceiver(
+            requireContext(),
+            receiver,
+            IntentFilter(TrackService.BROADCAST),
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
         requireContext().startForegroundService(Intent(requireContext(), TrackService::class.java))
     }
 

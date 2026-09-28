@@ -9,13 +9,13 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.purrguy.offlinemaptracker.R
 import com.purrguy.offlinemaptracker.data.TrackStore
 import com.purrguy.offlinemaptracker.tracking.TrackService
-import java.io.File
 
 class TracksFragment : Fragment() {
     private lateinit var tvStatus: TextView
@@ -60,7 +60,12 @@ class TracksFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        requireContext().registerReceiver(receiver, IntentFilter(TrackService.BROADCAST))
+        ContextCompat.registerReceiver(
+            requireContext(),
+            receiver,
+            IntentFilter(TrackService.BROADCAST),
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
         refreshList()
         tvStatus.text = if (TrackService.recording) "● Recording…" else "Not recording"
     }
